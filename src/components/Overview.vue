@@ -2,9 +2,9 @@
   <div class="container">
     <h1> Employees</h1>
     <ul class="row header">
-      <li @click="sortEmployees('name')">Name</li>
-      <li @click="sortEmployees('age')">Age</li>
-      <li @click="sortEmployees('salary')">Salary</li>
+      <li @click="sortEmployees('name')">Name <span v-html="icons[nameSorted]"></span></li>
+      <li @click="sortEmployees('age')">Age <span v-html="icons[ageSorted]"></span></li>
+      <li @click="sortEmployees('salary')">Salary <span v-html="icons[salarySorted]"></span></li>
     </ul>
     <ul class="row" v-for="employee in employees" :key="employee.id">
       <li>{{employee.employee_name}}</li>
@@ -22,7 +22,11 @@ export default {
       employees: [],
       nameSorted: '',
       ageSorted: '',
-      salarySorted: ''
+      salarySorted: '',
+      icons: {
+        asc: '&#8595;',
+        desc: '&#8593;',
+      },
     };
   },
   async created() {
@@ -34,13 +38,20 @@ export default {
       this.employees = await response.json();
       this.employees.push({"id":"3","employee_name":"Peter Petersen","employee_age":21,"employee_salary":10,"profile_image":""})
     },
+    removeIcons() {
+      this.nameSorted = '';
+      this.ageSorted = '';
+      this.salarySorted = '';
+    },
     sortEmployees(sort) {
       const attribute = `employee_${sort}`;
       const sortOrder = `${sort}Sorted`;
       if (this[sortOrder] === '' || this[sortOrder] === 'desc') {
+        this.removeIcons();
         this.employees = this.employees.sort((a, b) => (a[attribute] > b[attribute]) ? 1 : -1);
         this[sortOrder] = 'asc';
       } else {
+        this.removeIcons();
         this.employees = this.employees.sort((a, b) => (a[attribute] > b[attribute]) ? -1 : 1);
         this[sortOrder] = 'desc';
       }
