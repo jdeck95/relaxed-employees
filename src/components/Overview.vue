@@ -139,12 +139,30 @@ export default {
   }
 
   @media (max-width: 768px) {
+    .header {
+      &__title {
+        grid-column: span 7;
+      }
+      &__input {
+        grid-column: span 4;
+      }
+    }
+
     .employee-table {
       grid-column: col-start 2/ span 10;
     }
   }
 
   @media (max-width: 480px) {
+    .header {
+      &__title {
+        grid-column: span 6;
+      }
+      &__input {
+        grid-column: span 5;
+      }
+    }
+
     .employee-table {
       grid-column: span 12;
     }
