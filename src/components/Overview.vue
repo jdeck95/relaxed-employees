@@ -3,7 +3,7 @@
     <div class="employee-table">
       <div class="row header">
         <h2 class="header__title"> Employees</h2>
-        <input class="header__input" type="text" placeholder="filter...">
+        <input class="header__input" type="text" v-model="filter" placeholder="filter...">
         <font-awesome-icon class="header__icon" icon="search" />
       </div>
       <ul class="row table-header">
@@ -11,7 +11,7 @@
         <li @click="sortEmployees('age')">Age <span v-html="icons[ageSorted]"></span></li>
         <li @click="sortEmployees('salary')">Salary <span v-html="icons[salarySorted]"></span></li>
       </ul>
-      <ul class="row table-body" v-for="employee in employees" :key="employee.id">
+      <ul class="row table-body" v-for="employee in filteredEmployees" :key="employee.id">
         <li>{{employee.employee_name}}</li>
         <li>{{employee.employee_age}}</li>
         <li>{{employee.employee_salary}}</li>
@@ -29,6 +29,11 @@ export default {
        * List of employees
        */
       employees: [],
+      filteredEmployees: [],
+      /**
+       * String from input field
+       */
+      filter: '',
       /**
        * type of sorting of the employees attributes
        * @values empty, asc (ascending), desc (descending)
@@ -47,13 +52,31 @@ export default {
   },
   async created() {
     await this.fetchEmployees();
+    this.filteredEmployees = this.employees;
   },
-  methods: {
-    // fetches employees from API and assigns it to the state
+
+  watch: {
     /**
-       * Gets called after the component was created
-       * Fetches employees from API and assigns them to the state
-       */
+     * Runs whenever the filter input changes
+     * Compares every property of every object the input string
+     */
+    filter: function () {
+      const filteredEmployees = this.employees.filter(employee => {
+        for(let property in employee) {
+          if (employee[property].toString().toLowerCase().includes(this.filter)) {
+            return employee;
+          }
+        }
+      });
+     this.filteredEmployees = filteredEmployees;
+    }
+  },
+
+  methods: {
+    /**
+     * Gets called after the component was created
+     * Fetches employees from API and assigns them to the state
+     */
     async fetchEmployees() {
       const response = await fetch('http://localhost:81/api/v1/employees');
       this.employees = await response.json();
@@ -62,8 +85,8 @@ export default {
     },
 
     /**
-       * Resets the states, which describes in what order the attributes are sorted; empty string stands for unsorted
-       */
+     * Resets the states, which describes in what order the attributes are sorted; empty string stands for unsorted
+     */
     removeIcons() {
       this.nameSorted = '';
       this.ageSorted = '';
@@ -71,10 +94,10 @@ export default {
     },
 
     /**
-       * Sorts employees on the given attribute
-       *
-       * @param {String} sort The name of the attribute
-       */
+     * Sorts employees on the given attribute
+     *
+     * @param {String} sort The name of the attribute
+     */
     sortEmployees(sort) {
       const attribute = `employee_${sort}`;
       const sortOrder = `${sort}Sorted`;
@@ -88,7 +111,7 @@ export default {
         this[sortOrder] = 'desc';
       }
     },
-  }
+  },
 }
 </script>
 
