@@ -1,16 +1,22 @@
 <template>
-  <div class="container">
-    <h1> Employees</h1>
-    <ul class="row header">
-      <li @click="sortEmployees('name')">Name <span v-html="icons[nameSorted]"></span></li>
-      <li @click="sortEmployees('age')">Age <span v-html="icons[ageSorted]"></span></li>
-      <li @click="sortEmployees('salary')">Salary <span v-html="icons[salarySorted]"></span></li>
-    </ul>
-    <ul class="row" v-for="employee in employees" :key="employee.id">
-      <li>{{employee.employee_name}}</li>
-      <li>{{employee.employee_age}}</li>
-      <li>{{employee.employee_salary}}</li>
-    </ul>
+  <div class="row container">
+    <div class="employee-table">
+      <div class="row header">
+        <h2 class="header__title"> Employees</h2>
+        <input class="header__input" type="text" placeholder="filter...">
+        <font-awesome-icon class="header__icon" icon="search" />
+      </div>
+      <ul class="row table-header">
+        <li @click="sortEmployees('name')">Name <span v-html="icons[nameSorted]"></span></li>
+        <li @click="sortEmployees('age')">Age <span v-html="icons[ageSorted]"></span></li>
+        <li @click="sortEmployees('salary')">Salary <span v-html="icons[salarySorted]"></span></li>
+      </ul>
+      <ul class="row table-body" v-for="employee in employees" :key="employee.id">
+        <li>{{employee.employee_name}}</li>
+        <li>{{employee.employee_age}}</li>
+        <li>{{employee.employee_salary}}</li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -86,56 +92,62 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 .container {
-  width: 100%;
-}
-
-.row {
-  list-style-type: none;
-  display: grid;
-  grid-template-columns: repeat(12, [col-start] 1fr);
-  padding: 0;
-  margin: 10px 0;
-}
-
-.header {
-  font-weight: bold;
-}
-
-.header > li:hover {
-  cursor: pointer;
-}
-
-.row > li {
-  float: left;
-  grid-column: span 2;
-  border-bottom: 1px solid lightgrey;
-  padding: 10px 0;
-}
-
-.row > li:first-child {
-  grid-column: col-start 1 / span 3;
-}
-
-@media (max-width: 768px) {
-  .row > li:first-child {
-    grid-column: col-start 1 / span 5;
+  .employee-table {
+    grid-column: col-start 3/ span 8;
   }
 
-  .row > li {
-    grid-column: span 3
-  }
-}
-
-@media (max-width: 480px) {
-  .row > li:first-child {
-    grid-column: col-start 1 / span 5;
+  .header {
+  &__title {
+    margin: 0;
+    grid-column: span 9;
   }
 
-  .row > li{
-    grid-column: span 3;
+  &__input {
+    border: none;
+    grid-column: span 2;
+  }
+
+  &__icon {
+    grid-column: span 1;
+    align-self: center;
+  }
+
+  }
+
+  .table-header {
+    font-weight: bold;
+
+    li:hover {
+      cursor: pointer;
+    }
+  }
+
+  .row {
+    li {
+      float: left;
+      grid-column: span 3;
+      border-bottom: 1px solid lightgrey;
+      padding: 10px 0;
+
+      &:first-child {
+        grid-column: col-start 1 / span 6;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .employee-table {
+      grid-column: col-start 2/ span 10;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .employee-table {
+      grid-column: span 12;
+    }
   }
 }
 
