@@ -63,7 +63,7 @@ export default {
     filter: function () {
       const filteredEmployees = this.employees.filter(employee => {
         for(let property in employee) {
-          if (employee[property].toString().toLowerCase().includes(this.filter)) {
+          if (employee[property].toString().toLowerCase().includes(this.filter.toLowerCase())) {
             return employee;
           }
         }
@@ -145,6 +145,12 @@ export default {
 
     li:hover {
       cursor: pointer;
+    }
+  }
+
+  .table-body {
+    &:hover {
+      background-color: lightblue;
     }
   }
 
