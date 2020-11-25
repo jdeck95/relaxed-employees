@@ -16,6 +16,7 @@
         <li>{{employee.employee_age}}</li>
         <li>{{employee.employee_salary}}</li>
       </ul>
+      <font-awesome-icon class="icon-create" icon="plus" @click="createEmployee" />
     </div>
   </div>
 </template>
@@ -104,11 +105,11 @@ export default {
       const sortOrder = `${sort}Sorted`;
       if (this[sortOrder] === '' || this[sortOrder] === 'desc') {
         this.removeIcons();
-        this.employees = this.employees.sort((a, b) => (a[attribute] > b[attribute]) ? 1 : -1);
+        this.filteredEmployees = this.filteredEmployees.sort((a, b) => (a[attribute] > b[attribute]) ? 1 : -1);
         this[sortOrder] = 'asc';
       } else {
         this.removeIcons();
-        this.employees = this.employees.sort((a, b) => (a[attribute] > b[attribute]) ? -1 : 1);
+        this.filteredEmployees = this.filteredEmployees.sort((a, b) => (a[attribute] > b[attribute]) ? -1 : 1);
         this[sortOrder] = 'desc';
       }
     },
@@ -190,6 +191,17 @@ export default {
       &:first-child {
         grid-column: col-start 1 / span 6;
       }
+    }
+  }
+
+  .icon-create {
+    float: right;
+    background-color: lightblue;
+    border-radius: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    &:hover {
+      cursor: pointer;
     }
   }
 
