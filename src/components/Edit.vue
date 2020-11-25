@@ -140,8 +140,20 @@ export default {
 
       &:focus {
         outline: none;
-        border-color: blue;
+        border-color: deepskyblue;
       }
+    }
+
+    button {
+      background-color: deepskyblue; /* Green */
+      border: none;
+      color: white;
+      padding: 15px 20px;
+      margin: 10px 0;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
     }
   }
 }

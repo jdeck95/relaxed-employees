@@ -178,7 +178,7 @@ export default {
 
   .table-body {
     &:hover {
-      background-color: lightblue;
+      background-color: deepskyblue;
       cursor: pointer;
     }
   }
@@ -198,7 +198,7 @@ export default {
 
   .icon-create {
     float: right;
-    background-color: lightblue;
+    background-color: deepskyblue;
     border-radius: 100%;
     padding: 15px;
     margin: 10px 0;
