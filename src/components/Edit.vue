@@ -6,7 +6,7 @@
         <input type="text" v-model="editedEmployee.employee_name" placeholder="Input name here...">
         <input type="number" v-model="editedEmployee.employee_age" placeholder="Input age here">
         <input type="number" v-model="editedEmployee.employee_salary" placeholder="Input salary here">
-        <button>Submit</button>
+        <button>{{this.action}} Employee</button>
       </form>
     </div>
   </div>
@@ -17,21 +17,27 @@ export default {
   name: 'Edit',
   props: {
     employee_id: String,
-    action: String
   },
   /**
-   * calls fetchEmployee() after the component was created
+   * gets hash from url. If edit then fetches employee and sets action to edit,
+   * if create then sets action to create
    */
   async created() {
-    await this.fetchEmployee(this.employee_id);
+    if (window.location.hash.includes('edit')) {
+      this.action = 'Edit';
+      this.fetchEmployee(this.employee_id);
+    } else if (window.location.hash.includes('create')) {
+      this.action = 'Create';
+    }
   },
   data: function() {
     return {
       /**
        * Objects with employee-data original and edited
        */
-      editedEmployee: '',
-      originalEmployee: ''
+      editedEmployee: {},
+      originalEmployee: {},
+      action: ''
     }
   },
   methods: {
@@ -52,6 +58,9 @@ export default {
      *if so, asks user wether he wants to proceed or cancel the submit
      */
     checkInput() {
+      if (this.originalEmployee.employee_age > this.editedEmployee.employee_age && this.originalEmployee.employee_salary > this.editedEmployee.employee_salary) {
+        return confirm('You are reducing the age and salary. Are you sure?')
+      }
       if (this.originalEmployee.employee_age > this.editedEmployee.employee_age) {
         return confirm('You are reducing the age. Are you sure?')
       }
@@ -61,10 +70,9 @@ export default {
       return true;
     },
     /**
-     * triggers a PUT request to the API with the employee-data
-     *
+     * triggers a PUT request to the API with the employee-data to edit an existing employee
      */
-    async handleChanges() {
+    async editEmployee() {
       const validValues = this.checkInput();
       if (!validValues) {
         return;
@@ -83,6 +91,32 @@ export default {
         throw new Error(message);
       }
       this.$router.push({name: 'Overview'});
+    },
+    /**
+     * triggers a POST request to the API with the employee-data to create a new employee
+     */
+    async createEmployee() {
+      const response = await fetch(`http://localhost:81/api/v1/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(this.editedEmployee),
+      });
+
+      if (!response.ok) {
+        const message = `An error has occured: ${response.status}`;
+        window.alert(message);
+        throw new Error(message);
+      }
+      this.$router.push({name: 'Overview'});
+    },
+    /**
+     * handles the form submit
+     * decides wether to create or edit an employee
+     */
+    async handleChanges() {
+      this.action === 'Edit' ? await this.editEmployee() : await this.createEmployee();
     }
   },
 

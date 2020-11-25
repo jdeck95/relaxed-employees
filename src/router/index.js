@@ -17,6 +17,11 @@ const routes = [
     component: Edit,
     props: true,
   },
+  {
+    path: '/create',
+    name: 'Create',
+    component: Edit,
+  },
 ]
 
 const router = new VueRouter({

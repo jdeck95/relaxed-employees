@@ -83,8 +83,6 @@ export default {
     async fetchEmployees() {
       const response = await fetch('http://localhost:81/api/v1/employees');
       this.employees = await response.json();
-      // adds dummy-employee for testing purposes
-      this.employees.push({"id":"3","employee_name":"Peter Petersen","employee_age":21,"employee_salary":10,"profile_image":""})
     },
 
     /**
@@ -115,15 +113,29 @@ export default {
       }
     },
 
+    /**
+     * directs to edit page
+     *
+     * @param {Object} employee the employee to edit
+     */
     editEmployee(employee) {
       this.$router.push({
         name: 'Edit',
         params: {
           employee_id: employee.id,
-          action: 'Edit'
         }
       });
-    }
+    },
+
+    /**
+     * directs to create page
+     *
+     */
+    createEmployee() {
+      this.$router.push({
+        name: 'Create',
+      });
+    },
   },
 }
 </script>
