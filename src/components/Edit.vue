@@ -96,6 +96,7 @@ export default {
      * triggers a POST request to the API with the employee-data to create a new employee
      */
     async createEmployee() {
+      this.editedEmployee.profile_image = '';
       const response = await fetch(`http://localhost:81/api/v1/create`, {
         method: 'POST',
         headers: {
