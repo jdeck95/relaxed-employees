@@ -151,6 +151,7 @@ export default {
   .table-body {
     &:hover {
       background-color: lightblue;
+      cursor: pointer;
     }
   }
 
