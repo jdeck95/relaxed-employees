@@ -67,8 +67,10 @@ export default {
     filter: function () {
       const filteredEmployees = this.employees.filter(employee => {
         for(let property in employee) {
-          if (employee[property].toString().toLowerCase().includes(this.filter.toLowerCase())) {
+          if (property !== 'id' && property !== 'profile_image') {
+            if (employee[property].toString().toLowerCase().includes(this.filter.toLowerCase())) {
             return employee;
+          }
           }
         }
       });
