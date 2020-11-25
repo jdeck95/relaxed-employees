@@ -12,9 +12,10 @@ const routes = [
     component: Overview
   },
   {
-    path: '/edit',
+    path: '/edit/:employee_id',
     name: 'Edit',
-    component: Edit
+    component: Edit,
+    props: true,
   },
 ]
 

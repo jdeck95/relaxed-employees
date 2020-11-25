@@ -11,7 +11,7 @@
         <li @click="sortEmployees('age')">Age <span v-html="icons[ageSorted]"></span></li>
         <li @click="sortEmployees('salary')">Salary <span v-html="icons[salarySorted]"></span></li>
       </ul>
-      <ul class="row table-body" v-for="employee in filteredEmployees" :key="employee.id">
+      <ul class="row table-body" v-for="employee in filteredEmployees" :key="employee.id" @click="editEmployee(employee)">
         <li>{{employee.employee_name}}</li>
         <li>{{employee.employee_age}}</li>
         <li>{{employee.employee_salary}}</li>
@@ -50,6 +50,9 @@ export default {
       },
     };
   },
+  /**
+     * calls fetchEmployees() after the component was created
+     */
   async created() {
     await this.fetchEmployees();
     this.filteredEmployees = this.employees;
@@ -111,6 +114,16 @@ export default {
         this[sortOrder] = 'desc';
       }
     },
+
+    editEmployee(employee) {
+      this.$router.push({
+        name: 'Edit',
+        params: {
+          employee_id: employee.id,
+          action: 'Edit'
+        }
+      });
+    }
   },
 }
 </script>
