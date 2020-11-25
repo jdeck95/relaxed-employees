@@ -3,9 +3,9 @@
     <div class="edit-employee">
       <form @submit="handleChanges" action="">
         <p>{{this.action}} Employee</p>
-        <input type="text" v-model="editedEmployee.employee_name" placeholder="Input name here...">
-        <input type="number" v-model="editedEmployee.employee_age" placeholder="Input age here">
-        <input type="number" v-model="editedEmployee.employee_salary" placeholder="Input salary here">
+        <input type="text" v-model="editedEmployee.employee_name" placeholder="Input name here..." required>
+        <input type="number" v-model="editedEmployee.employee_age" placeholder="Input age here" required>
+        <input type="number" v-model="editedEmployee.employee_salary" placeholder="Input salary here" required>
         <button>{{this.action}} Employee</button>
       </form>
     </div>
